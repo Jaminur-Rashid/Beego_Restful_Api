@@ -34,24 +34,6 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["Beego_Restful_Api/controllers:ObjectController"] = append(beego.GlobalControllerRouter["Beego_Restful_Api/controllers:ObjectController"],
-        beego.ControllerComments{
-            Method: "Put",
-            Router: "/:objectId",
-            AllowHTTPMethods: []string{"put"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["Beego_Restful_Api/controllers:ObjectController"] = append(beego.GlobalControllerRouter["Beego_Restful_Api/controllers:ObjectController"],
-        beego.ControllerComments{
-            Method: "Delete",
-            Router: "/:objectId",
-            AllowHTTPMethods: []string{"delete"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
     beego.GlobalControllerRouter["Beego_Restful_Api/controllers:UserController"] = append(beego.GlobalControllerRouter["Beego_Restful_Api/controllers:UserController"],
         beego.ControllerComments{
             Method: "Post",
@@ -111,6 +93,15 @@ func init() {
             Method: "Logout",
             Router: "/logout",
             AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["Beego_Restful_Api/controllers:UserRegistrationController"] = append(beego.GlobalControllerRouter["Beego_Restful_Api/controllers:UserRegistrationController"],
+        beego.ControllerComments{
+            Method: "Post",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

@@ -17,9 +17,7 @@
     "paths": {
         "/object/": {
             "get": {
-                "tags": [
-                    "object"
-                ],
+                "tags": ["object"],
                 "description": "get all objects",
                 "operationId": "ObjectController.GetAll",
                 "responses": {
@@ -35,25 +33,21 @@
                 }
             },
             "post": {
-                "tags": [
-                    "object"
-                ],
+                "tags": ["object"],
                 "description": "create object",
                 "operationId": "ObjectController.Create",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "The object content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Object"
-                        }
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "The object content",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/models.Object"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
-                        "description": "{string} models.Object.Id"
+                        "description": "{string} models.Object"
                     },
                     "403": {
                         "description": "body is empty"
@@ -63,20 +57,16 @@
         },
         "/object/{objectId}": {
             "get": {
-                "tags": [
-                    "object"
-                ],
+                "tags": ["object"],
                 "description": "find object by objectid",
                 "operationId": "ObjectController.Get",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "objectId",
-                        "description": "the objectid you want to get",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "objectId",
+                    "description": "the objectid you want to get",
+                    "required": true,
+                    "type": "string"
+                }],
                 "responses": {
                     "200": {
                         "description": "",
@@ -90,13 +80,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "object"
-                ],
+                "tags": ["object"],
                 "description": "update the object",
                 "operationId": "ObjectController.Update",
-                "parameters": [
-                    {
+                "parameters": [{
                         "in": "path",
                         "name": "objectId",
                         "description": "The objectid you want to update",
@@ -126,20 +113,16 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "object"
-                ],
+                "tags": ["object"],
                 "description": "delete the object",
                 "operationId": "ObjectController.Delete",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "objectId",
-                        "description": "The objectId you want to delete",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "objectId",
+                    "description": "The objectId you want to delete",
+                    "required": true,
+                    "type": "string"
+                }],
                 "responses": {
                     "200": {
                         "description": "{string} delete success!"
@@ -152,9 +135,7 @@
         },
         "/user/": {
             "get": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "get all Users",
                 "operationId": "UserController.GetAll",
                 "responses": {
@@ -167,22 +148,18 @@
                 }
             },
             "post": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "create users",
                 "operationId": "UserController.CreateUser",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body for user content",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "body for user content",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/models.User"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "{int} models.User.Id"
@@ -195,13 +172,10 @@
         },
         "/user/login": {
             "get": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "Logs user into the system",
                 "operationId": "UserController.Login",
-                "parameters": [
-                    {
+                "parameters": [{
                         "in": "query",
                         "name": "username",
                         "description": "The username for login",
@@ -228,9 +202,7 @@
         },
         "/user/logout": {
             "get": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "Logs out current logged in user session",
                 "operationId": "UserController.logout",
                 "responses": {
@@ -242,20 +214,16 @@
         },
         "/user/{uid}": {
             "get": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "get user by uid",
                 "operationId": "UserController.Get",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "uid",
-                        "description": "The key for staticblock",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "uid",
+                    "description": "The key for staticblock",
+                    "required": true,
+                    "type": "string"
+                }],
                 "responses": {
                     "200": {
                         "description": "",
@@ -269,13 +237,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "update the user",
                 "operationId": "UserController.Update",
-                "parameters": [
-                    {
+                "parameters": [{
                         "in": "path",
                         "name": "uid",
                         "description": "The uid you want to update",
@@ -305,20 +270,16 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "description": "delete the user",
                 "operationId": "UserController.Delete",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "uid",
-                        "description": "The uid you want to delete",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "uid",
+                    "description": "The uid you want to delete",
+                    "required": true,
+                    "type": "string"
+                }],
                 "responses": {
                     "200": {
                         "description": "{string} delete success!"
@@ -335,15 +296,23 @@
             "title": "Object",
             "type": "object",
             "properties": {
-                "ObjectId": {
+                "FirstName": {
                     "type": "string"
                 },
-                "PlayerName": {
+                "LastName": {
                     "type": "string"
                 },
-                "Score": {
-                    "type": "integer",
-                    "format": "int64"
+                "Phone": {
+                    "type": "string"
+                },
+                "Email": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                },
+                "DoB": {
+                    "type": "string"
                 }
             }
         },
@@ -385,8 +354,7 @@
             }
         }
     },
-    "tags": [
-        {
+    "tags": [{
             "name": "object",
             "description": "Operations about object\n"
         },

@@ -3,6 +3,7 @@ package controllers
 import (
 	"Beego_Restful_Api/models"
 	"encoding/json"
+	"fmt"
 
 	beego "github.com/beego/beego/v2/server/web"
 )
@@ -22,8 +23,10 @@ func (o *ObjectController) Post() {
 	var ob models.Object
 	json.Unmarshal(o.Ctx.Input.RequestBody, &ob)
 	objectid := models.AddOne(ob)
+	fmt.Println(objectid)
 	o.Data["json"] = map[string]string{"ObjectId": objectid}
 	o.ServeJSON()
+
 }
 
 // @Title Get
@@ -56,37 +59,9 @@ func (o *ObjectController) GetAll() {
 	o.ServeJSON()
 }
 
-// @Title Update
-// @Description update the object
-// @Param	objectId		path 	string	true		"The objectid you want to update"
-// @Param	body		body 	models.Object	true		"The body"
-// @Success 200 {object} models.Object
-// @Failure 403 :objectId is empty
-// @router /:objectId [put]
-func (o *ObjectController) Put() {
-	objectId := o.Ctx.Input.Param(":objectId")
-	var ob models.Object
-	json.Unmarshal(o.Ctx.Input.RequestBody, &ob)
-
-	err := models.Update(objectId, ob.Score)
-	if err != nil {
-		o.Data["json"] = err.Error()
-	} else {
-		o.Data["json"] = "update success!"
-	}
-	o.ServeJSON()
-}
-
-// @Title Delete
-// @Description delete the object
-// @Param	objectId		path 	string	true		"The objectId you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 objectId is empty
-// @router /:objectId [delete]
 func (o *ObjectController) Delete() {
 	objectId := o.Ctx.Input.Param(":objectId")
 	models.Delete(objectId)
 	o.Data["json"] = "delete success!"
 	o.ServeJSON()
 }
-
