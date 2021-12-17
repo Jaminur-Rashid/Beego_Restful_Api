@@ -97,13 +97,4 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["Beego_Restful_Api/controllers:UserRegistrationController"] = append(beego.GlobalControllerRouter["Beego_Restful_Api/controllers:UserRegistrationController"],
-        beego.ControllerComments{
-            Method: "Post",
-            Router: "/",
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
 }

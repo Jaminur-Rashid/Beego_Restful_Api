@@ -5,7 +5,7 @@ go 1.16
 require github.com/beego/beego/v2 v2.0.1
 
 require (
-	github.com/766b/go-outliner v0.0.0-20180511142203-fc6edecdadd7 // indirect
-	github.com/lib/pq v1.10.4 // indirect
+	github.com/lib/pq v1.10.4
 	github.com/smartystreets/goconvey v1.6.4
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 )
