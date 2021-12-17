@@ -38,7 +38,6 @@ func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
-
 /*
 validate email
 */
@@ -74,6 +73,7 @@ func isValidLastName(s string) bool {
 
 /*
 function that validates birth date
+can validate dd/mm/yy format
 */
 func isValidBirthDate(s string) bool {
 	re := regexp.MustCompile("(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)")
@@ -109,6 +109,7 @@ func (o *ObjectController) Post() {
 		Inserting user data into databse
 	*/
 	//hash user password
+
 	hashed_password, _ := HashPassword(password)
 	fmt.Println(hashed_password)
 	isOkEmail := isValidEmail(email)
@@ -130,7 +131,6 @@ func (o *ObjectController) Post() {
 		add_user_query := "INSERT INTO user_info_table (first_name,last_name,phone_no,email,password,birth_date) VALUES (" + value + ");"
 		fmt.Println("Data Insertion Query", add_user_query)
 		_, err := db.Exec(add_user_query)
-		fmt.Println("I s Ok ?")
 		fmt.Println(err)
 		CheckError(err)
 		fmt.Println("Data Inserted Successfully")
@@ -177,13 +177,14 @@ func (o *ObjectController) GetAll() {
 	o.Data["json"] = obs
 	o.ServeJSON()
 }
-
+/*
 func (o *ObjectController) Delete() {
 	objectId := o.Ctx.Input.Param(":objectId")
 	models.Delete(objectId)
 	o.Data["json"] = "delete success!"
 	o.ServeJSON()
 }
+*/
 
 /*
 check error
