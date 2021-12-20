@@ -5,29 +5,39 @@ This is a Restful Open API to perform user registration using Beego and Postgres
 * Register user with properties like First Name, Last Name, Email, Phone, Password, Date of birth
 * Stores user hashed password
 * Validated user data before inserting into the Database
-
+* For form validation I have used regular expression, and hard coded the error message if have.
 # Prerequisites
 * Go
 * Beego and bee
 * Postgresql
 * Install and configure golang
 
-# How the run the scripts 
-One can run the script in two ways
-# Procedure One
-After creating a database 
+# How the run the project
+To run the project follow the procedure below,
+* After installing and configuring go, beego and bee in the system clone the github repository.
+* Initialize the database in the `database.go` and `object.go` inside `controllers` and `database` folder.
 ``` bash
-import the vrbo_hotel_info_table.sql file to retrive all tha hotel data
+    host = "localhost"
+
+	port = 5432
+
+	user = "postgres"
+
+	password = "admin"
+
+	dbname = "user_database"
 ```
-
-
-
-##### Database Table Structure
-| ID             | First_Name       | Last_Name| Email  | Phone| Password | Birth_Date |
-|----------------|----------------|------------|-----------|---------|----------|-------|
-| uhg87-888-a7.  | Usa-Maryland   | Hotel One  | 10        | 3       | 2        | $60   |
-| uhg87-888-a8.  | Usa-Maryland   | Hotel Two  | 6         | 2       | 3        | $127  |
-| uhg87-888-a9.  | Usa-Maryland   | Hotel Three | 8         | 2       | 4        | $109  |
-| uhg87-888-a10. | Usa-Maryland   | Hotel Four | 7         | 1       | 2        | $92   |
-| uhg87-888-a11. | Usa-Maryland   | Hotel Five | 5         | 5       | 3        | $116  |
- | uhg87-88-a11. | Usa-Maryland  |  Hotel Six | 2          | 4       | 1        | $225  |
+* After creating a database and user_info_table run,
+``` bash
+go mod tidy
+```
+The above command will import all the dependencies of the project.
+* To run the application run,
+ ``` bash
+ bee run
+```
+Now go to the URL,
+``` bash
+http://localhost:8080/swagger/
+```
+Now you can test the api in the Object section

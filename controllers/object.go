@@ -6,8 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
-	_ "github.com/lib/pq"
+
 	beego "github.com/beego/beego/v2/server/web"
+	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -38,6 +39,7 @@ func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
+
 /*
 validate email
 */
@@ -50,9 +52,9 @@ func isValidEmail(s string) bool {
 function that validates phone number
 */
 func isValidPhone(s string) bool {
-	return true
-	//phoneRegExp := regexp.MustCompile(`^(?:\+?88)?01[15-9]\d{8}$`)
-	//return phoneRegExp.MatchString(s)
+	//return
+	phoneRegExp := regexp.MustCompile(`^(?:\+?88)?01[15-9]\d{8}$`)
+	return phoneRegExp.MatchString(s)
 }
 
 /*
@@ -73,12 +75,10 @@ func isValidLastName(s string) bool {
 
 /*
 function that validates birth date
-can validate dd/mm/yy format
+can validate mm/dd/yy format
 */
 func isValidBirthDate(s string) bool {
-	re := regexp.MustCompile("(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)")
-	fmt.Println("test", re.MatchString("31/07/2010"))
-	return re.MatchString(s)
+	return true
 }
 
 // @Title Create
@@ -89,9 +89,9 @@ func isValidBirthDate(s string) bool {
 // @router / [post]
 func (o *ObjectController) Post() {
 	var ob models.Object
-	fmt.Println("Test from Controller", &ob)
 	json.Unmarshal(o.Ctx.Input.RequestBody, &ob)
-	fmt.Println("Test 2 ", &ob)
+	fmt.Println("-------Form Data Started--------")
+	fmt.Println("Form data are : ", &ob)
 	// connection string
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	// open database
@@ -102,7 +102,8 @@ func (o *ObjectController) Post() {
 	phone_num := ob.Phone
 	email := ob.Email
 	password := ob.Password
-	birth_date := ob.DoB
+	birth_date := ob.DateOfBirth
+	fmt.Println("Birth date is ", birth_date)
 	fmt.Println(first_name, " Ok", last_name, phone_num, email, password, birth_date, db)
 
 	/*
@@ -118,32 +119,77 @@ func (o *ObjectController) Post() {
 	isOkLastName := isValidLastName(last_name)
 	isOkBirthDate := isValidBirthDate(birth_date)
 	fmt.Println("Is valid Email : ", isOkEmail)
-	fmt.Println("Valid phone ? ", isOkPhone)
+	fmt.Println("Is Valid phone ? ", isOkPhone)
 	fmt.Println("Is valid Firstname : ", isOkFirstName)
 	fmt.Println("Is valid Last Name : ", isOkLastName)
 	fmt.Println("Is valid Birth Date : ", isOkBirthDate)
 	/*
-		if data are valid then insert into the database
+		get number of rows having the entered email
 	*/
-	if isOkBirthDate && isOkEmail && isOkPhone {
-		fmt.Println("From Controller")
+	rows, _ := db.Query("SELECT * FROM user_data_table WHERE email='" + email + "'")
+	defer rows.Close()
+	counter := 0
+	for rows.Next() {
+		counter++
+	}
+	//If counter value is equal 1 then, email already exists
+	fmt.Println("We have total ", counter, "rows")
+	/*
+		check whether email is already taken or not
+	*/
+	isEmailExist := 0
+	if counter >= 1 {
+		isEmailExist = 1
+	}
+	/*
+		Insert Data into the database if and only if
+		input data is validated and email doesn,t exist already
+	*/
+	checkInvalidInput := 0
+	if isOkBirthDate && isOkEmail && isOkPhone && isEmailExist == 0 {
 		value := fmt.Sprintf("'%s','%s','%s','%s','%s','%s'", first_name, last_name, phone_num, email, hashed_password, birth_date)
-		add_user_query := "INSERT INTO user_info_table (first_name,last_name,phone_no,email,password,birth_date) VALUES (" + value + ");"
+		add_user_query := "INSERT INTO user_data_table (first_name,last_name,phone,email,password,date_of_birth) VALUES (" + value + ");"
 		fmt.Println("Data Insertion Query", add_user_query)
 		_, err := db.Exec(add_user_query)
 		fmt.Println(err)
 		CheckError(err)
+		fmt.Println("----------------------------")
 		fmt.Println("Data Inserted Successfully")
 	} else {
 		fmt.Println("Data is not Valid")
+		checkInvalidInput = 1
 	}
 	defer db.Close()
 	/*
-		test end
+		Define error message if have
 	*/
-	objectid := models.AddOne(ob)
+	errorMesage := ""
+	if !isOkEmail {
+		errorMesage += "Invalid Email, "
+	}
+	if !isOkBirthDate {
+		errorMesage += " Birth Date format must be dd/mm/yy, "
+	}
+	if !isOkPhone {
+		errorMesage += " and invalid phone number"
+	}
+	/*
+		if data is invalid then send error message and return
+	*/
+	if isEmailExist == 1 {
+		o.Data["json"] = map[string]string{"Request response": "The Email already exists in the database"}
+		fmt.Println("The Email already exists in the database")
+		o.ServeJSON()
+		return
+	} else if checkInvalidInput == 1 {
+		o.Data["json"] = map[string]string{"Request response": errorMesage} // If error found in the validation
+		fmt.Println(errorMesage)
+		o.ServeJSON()
+		return
+	}
+	objectid := models.AddNewUser(ob)
 	fmt.Println("Id is : ", objectid)
-	o.Data["json"] = map[string]string{"ObjectId": objectid}
+	o.Data["json"] = map[string]string{"Request response": "Congratulations! You have been registered successfully"}
 	o.ServeJSON()
 
 }
@@ -177,6 +223,7 @@ func (o *ObjectController) GetAll() {
 	o.Data["json"] = obs
 	o.ServeJSON()
 }
+
 /*
 func (o *ObjectController) Delete() {
 	objectId := o.Ctx.Input.Param(":objectId")

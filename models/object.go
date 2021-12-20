@@ -10,12 +10,12 @@ var (
 )
 
 type Object struct {
-	FirstName string `json:"FirstName"`
-	LastName  string `json:"LastName"`
-	Phone     string `json:"Phone"`
-	Email     string `json:"Email"`
-	Password  string `json:"Password"`
-	DoB       string `json:"DoB"`
+	FirstName   string `json:"FirstName"`
+	LastName    string `json:"LastName"`
+	Phone       string `json:"Phone"`
+	Email       string `json:"Email"`
+	Password    string `json:"Password"`
+	DateOfBirth string `json:"DoB"`
 }
 
 func init() {
@@ -23,7 +23,7 @@ func init() {
 
 }
 
-func AddOne(object Object) (ObjectId string) {
+func AddNewUser(object Object) (ObjectId string) {
 	Objects[object.Email] = &object
 	return object.Email
 }
@@ -38,6 +38,7 @@ func GetOne(ObjectId string) (object *Object, err error) {
 func GetAll() map[string]*Object {
 	return Objects
 }
+
 /*
 func Delete(ObjectId string) {
 	delete(Objects, ObjectId)
