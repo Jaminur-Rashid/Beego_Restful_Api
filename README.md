@@ -17,6 +17,7 @@ To run the project follow the procedure below,
 * After installing and configuring go, beego and bee in the system clone the github repository.
 * Initialize the database in the `database.go` and `object.go` inside `controllers` and `database` folder.
 ``` bash
+
     host = "localhost"
 
 	port = 5432
