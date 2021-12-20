@@ -24,9 +24,9 @@ To run the project follow the procedure below,
 
 	user = "postgres"
 
-	password = "admin"
+	password = "your password"
 
-	dbname = "user_database"
+	dbname ="Your Database Name"
 ```
 * After creating a database and user_info_table run,
 ``` bash
@@ -41,4 +41,4 @@ Now go to the URL,
 ``` bash
 http://localhost:8080/swagger/
 ```
-Now you can test the api in the Object section
+Now you can test the api in the Object POST section
